@@ -344,10 +344,10 @@ namespace Programs
     
 	class Exercise1
     {
-
+        RecipeCRUD allRecipes = new RecipeCRUD();
 		static void Main(string[] args)
         {
-            RecipeCRUD allRecipes = new RecipeCRUD();
+            
             while (true)
             {
                 Console.WriteLine("Welcome to the Recipe Program!\n1.Recipe Manager\n2.Recipe Finder App\n3.Quit\nYour choice: ");
