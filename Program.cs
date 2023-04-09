@@ -347,7 +347,7 @@ namespace Programs
 
 		static void Main(string[] args)
         {
-            RecipeCRUD RECIPE = new RecipeCRUD();
+            RecipeCRUD allRecipes = new RecipeCRUD();
             while (true)
             {
                 Console.WriteLine("Welcome to the Recipe Program!\n1.Recipe Manager\n2.Recipe Finder App\n3.Quit\nYour choice: ");
@@ -374,7 +374,7 @@ namespace Programs
 
                                 if (choice1 == 1)
                                 {
-                                    RECIPE.GetAllRecipes();
+                                    allRecipes.GetAllRecipes();
                                 }
                                 else if (choice1 == 2)
                                 {
@@ -395,20 +395,26 @@ namespace Programs
                                     Console.WriteLine("Please enter recipe AuthorId: ");
                                     int recipeAuthorId = Convert.ToInt32(Console.ReadLine());
                                     Console.WriteLine("Please enter recipe Ingredients: ");
+                                    Ingredient newIngredient = new Ingredient();
                                     Console.WriteLine("Please enter the ingredient name: ");
-                                    string ingredientName = Console.ReadLine();
+                                    string newIngredientName = Console.ReadLine();
+                                    newIngredient.Name = newIngredientName;
                                     Console.WriteLine("Please enter ingredient quantity: ");
-                                    int ingredientQuantity = Convert.ToInt32(Console.ReadLine());;
+                                    int newIngredientQuantity = Convert.ToInt32(Console.ReadLine());;
+                                    newIngredient.Quantity = newIngredientQuantity;
                                     Console.WriteLine("Please enter ingredient unit: ");
-                                    string ingredientUnit = Console.ReadLine();
+                                    string newIngredientUnit = Console.ReadLine();
+                                    newIngredient.Unit = newIngredientUnit;
                                     Console.WriteLine("Please enter ingredient recipeId: ");
-                                    int ingredientRecipeId = Convert.ToInt32(Console.ReadLine());
-                                    ingredient.createIngredient(ingredientName, ingredientQuantity, ingredientUnit, ingredientRecipeId);
-                                    RECIPE.createRecipe(recipeName, recipeDescription, recipeCuisine, recipeDifficultyLevel, recipePreparationTime, recipeCookingTime, recipeServings, recipeAuthorId, ingredient);
+                                    int newIngredientRecipeId = Convert.ToInt32(Console.ReadLine());
+                                    newIngredient.RecipeId = newIngredientRecipeId;
+                                    List<Ingredient> ingredients = new List<Ingredient>();
+                                    ingredients.Add(newIngredient);
+                                    allRecipes.createRecipe(recipeName, recipeDescription, recipeCuisine, recipeDifficultyLevel, recipePreparationTime, recipeCookingTime, recipeServings, recipeAuthorId, ingredients);
                                 }
                                 else if (choice1 == 3)
                                 {
-                                    Console.WriteLine("Please enter the new recipe name");
+                                    Console.WriteLine("Please enter the recipe ID");
                                     int recipeId = Convert.ToInt32(Console.ReadLine());
                                     Console.WriteLine("Please enter the new recipe name");
                                     string recipeName = Console.ReadLine();
@@ -426,13 +432,13 @@ namespace Programs
                                     int recipeServings = Convert.ToInt32(Console.ReadLine());
                                     Console.WriteLine("Please enter new recipe AuthorId: ");
                                     int recipeAuthorId = Convert.ToInt32(Console.ReadLine());
-                                    RECIPE.UpdateRecipe(recipeId, recipeName, recipeDescription, recipeCuisine, recipeDifficultyLevel, recipePreparationTime, recipeCookingTime, recipeServings, recipeAuthorId);
+                                    allRecipes.UpdateRecipe(recipeId, recipeName, recipeDescription, recipeCuisine, recipeDifficultyLevel, recipePreparationTime, recipeCookingTime, recipeServings, recipeAuthorId);
                                 }
                                 else if (choice1 == 4)
                                 {
                                     Console.WriteLine("Please enter the recipe id you want to delete: ");
                                     int recipeId = Convert.ToInt32(Console.ReadLine());
-                                    RECIPE.DeleteRecipe(recipeId);
+                                    allRecipes.DeleteRecipe(recipeId);
                                 }
                                 else if (choice1 == 5)
                                 {
@@ -470,6 +476,8 @@ namespace Programs
                                 }
                                 else if (choice1 == 3)
                                 {
+                                    Console.WriteLine("Please enter the ingredient Id");
+                                    int ingredientId = Convert.ToInt32(Console.ReadLine());
                                    Console.WriteLine("Please enter the new ingredient name: ");
                                     string ingredientName = Console.ReadLine();
                                     Console.WriteLine("Please enter new ingredient quantity: ");
@@ -478,7 +486,7 @@ namespace Programs
                                     string ingredientUnit = Console.ReadLine();
                                     Console.WriteLine("Please enter new ingredient recipeId: ");
                                     int ingredientRecipeId = Convert.ToInt32(Console.ReadLine());
-                                    ingredient.UpdateIngredient(ingredientName, ingredientQuantity, ingredientUnit, ingredientRecipeId);
+                                    ingredient.UpdateIngredient(ingredientId, ingredientName, ingredientQuantity, ingredientUnit, ingredientRecipeId);
                                 }
                                 else if (choice1 == 4)
                                 {
@@ -560,8 +568,10 @@ namespace Programs
                     Console.WriteLine("Welcome to the Recipe Finder App!!!");
                     Console.WriteLine("Please enter the cuisine you're interested in (e.g. Italian, Mexican, Chinese):");
 			        string choice = Console.ReadLine();
+                    Programs.Exercise1 program = new Programs.Exercise1();
 
-                    List<Recipe> recipes = SearchRecipesByCuisine(choice);
+
+                    List<Recipe> recipes = program.SearchRecipesByCuisine(choice);
 
                     Console.WriteLine("Here are the recipes we find for you");
 			        foreach (Recipe recipe in recipes)
@@ -588,7 +598,7 @@ namespace Programs
         public List<Recipe> SearchRecipesByCuisine(string cuisine)
 		{
 			List<Recipe> matchingRecipes = new List<Recipe>();
-			foreach (Recipe recipe in RECIPE)
+			foreach (Recipe recipe in allRecipes)
 			{
 				if (recipe.Cuisine == cuisine)
 				{
